@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="container ">  
+  <div class="card text-center">
+    <div class="card-header">
+      Mess Name: {{ mess.mess_name }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Todays Menu</h5>
+      <p class="card-text">
+        {% if menu.menu %}
+        <p>{{ menu.menu }}</p>
+      {% else %}
+        <p>{{ error }}</p>
+      {% endif %}
+      </p>
+      <a href="#" class="btn btn-primary">Rate Todays Menu</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+
+  <div class="card my-5 ">
+    <div class="card-body">
+      <h5 class="card-title">Visit {{ mess.mess_name }}</h5>
+      <p class="card-text">{{ mess.loc }}</p>
+    </div>
+    <img src={% static 'images/banner.jpg' %} class="card-img-top" height>
+  </div>
+</div>
+
+{% endblock content %}

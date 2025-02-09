@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %} 
+{% block js %} <script src={% static 'js/base.js' %}></script> {% endblock js %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %}" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+<div class="mx-5 my-3 row">
+    <div class="col-6" >
+        <div class="card w-100 mb-3" >
+            <div class="card-header">
+              Menu
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">   
+                {% if menu %}
+                    {{ menu.menu }}
+                {% else %}
+                    <p class="text-danger">No menu available</p>
+                {% endif %}
+              </li>
+              <li class="list-group-item">Menu Available From: {{ menu.from_time | time:"H:i" }} </li>
+              <li class="list-group-item">Menu Available To: {{ menu.to_time | time:"H:i" }} </li>
+            </ul>
+            
+        </div>
+        {% comment %} <button type="button" class="btn btn-warning" data-toggle="modal"  data-target="#Modal">Change Menu</button> {% endcomment %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="@mdo">Update Menu</button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Menu</h5>
+                        
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="from_time" class="col-form-label">From time</label>
+                            <input type="time" class="form-control" id="from_time" name="from_time">
+                        </div>
+                        <div class="form-group">
+                            <label for="to_time" class="col-form-label">To time</label>
+                            <input type="time" class="form-control" id="to_time" name="to_time"> 
+                        </div>
+                        <div class="form-group">
+                            <label for="menu-text" class="col-form-label">Menu:</label>
+                            <textarea class="form-control" id="menu-text" name="menu-text"></textarea>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card w-100" >
+            <img src="/media/{{mess.mess_image}}" class="card-img-top" alt="mess-image" >
+            <div class="card-body">
+              <h5 class="card-title">Mess Name: {{mess.mess_name}}</h5>
+              {% comment %} <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> {% endcomment %}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Address: {{mess.loc}}</li>
+              <li class="list-group-item">Ratings: {{mess.mess_ratings}}</li>
+              <li class="list-group-item">{{ mess.date_created | date:"d M Y" }}</li>
+            </ul>
+            <div class="card-body">
+              <a class="btn btn-light border" href="#" class="card-link">Edit</a>
+              <a class="btn btn-light border" href="#" class="card-link">Change image</a>
+            </div>
+          </div>
+    </div>
+</div>
+
+{% endblock content %}

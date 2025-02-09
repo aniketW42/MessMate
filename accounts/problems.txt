@@ -1,0 +1,1 @@
+Unique contraint for username fails
